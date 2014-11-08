@@ -1,3 +1,10 @@
+Meteor notes: When using, clone the meteor/minisat repo into the same
+directory as this repo, on the 'emscripten' branch.
+
+Original README follows.
+
+---
+
 This directory contains information on how to build the
 MiniSat SAT solver (http://minisat.se/) with Emscripten.
 

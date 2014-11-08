@@ -4,25 +4,24 @@ EMMAKE=emmake
 EMCC=emcc
 NODE=node
 
-mkdir -p build
-cd build
-
-if [ ! -d "minisat" ]; then
-    echo "Cloning from git"
-    git clone https://github.com/niklasso/minisat.git
-
-    echo "Patching minisat to build and work with emscripten"
-    for p in ../patches/*.patch; do patch -p0 < $p; done
+if [ ! -d "../../minisat" ]; then
+    echo "Please clone the meteor/minisat repo in the same directory as the meteor/minisat-emscripten repo and check out the 'emscripten' branch."
+    exit 1
 fi
 
 echo "Building"
-cd minisat
+
+pushd ../../minisat
+rm -rf build/release/* # clean minisat's build dir; when is it necessary?
 $EMMAKE make r
 cd build/release/bin
 ln -s minisat minisat.bc
-$EMCC -O3 -s EXPORTED_FUNCTIONS='["_solve_string"]' -s TOTAL_MEMORY=67108864 minisat.bc -o minisat.js
-cd ../../../..
-cp minisat/build/release/bin/minisat.js{,.mem} .
+# flags reference: http://kripken.github.io/emscripten-site/docs/tools_reference/emcc.html
+$EMCC -O3 --memory-init-file 0 --bind -s EXPORTED_FUNCTIONS='["_solve_string"]' -s TOTAL_MEMORY=67108864 minisat.bc -o minisat.js
+popd
+
+mkdir -p build
+cp ../../minisat/build/release/bin/minisat.js build
 
 echo "Testing"
-$NODE ../test.js
+$NODE test.js

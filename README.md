@@ -1,5 +1,14 @@
-research.js
-===========
+Meteor notes: This is a fork of
+https://github.com/jgalenson/research.js where we only care about the
+`minisat` directory, which contains a script for building MiniSat for
+Emscripten.
+
+When using, clone the meteor/minisat repo into the same directory as
+this repo, on the 'emscripten' branch.
+
+Original README follows.
+
+### research.js
 
 Share your research online by compiling it to JavaScript!
 
