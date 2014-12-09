@@ -3,7 +3,7 @@ var Module = require('./build/minisat.js')
 // Testing function.
 var solve_string = Module.cwrap('solve_string', 'string', ['string', 'number']);
 function test(problem, expected) {
-  console.log('Trying to solve: ' + problem)
+  console.log('Trying to solve: ' + problem);
   var result = solve_string(problem, problem.length);
   console.log('Got: ' + result);
   console.log('Expected: ' + expected);
